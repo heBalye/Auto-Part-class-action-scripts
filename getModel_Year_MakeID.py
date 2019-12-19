@@ -10,6 +10,10 @@ def getModel_Year_MakeID(MakeID, Year):
         % (MakeID, Year)
     )
     h = httplib2.Http()
+
     _, content = h.request(url, "GET")
+
     result = json.loads(content)
-    return pd.DataFrame(result["Results"])
+
+    return [item["Model_Name"] for item in result["Results"]]
+
