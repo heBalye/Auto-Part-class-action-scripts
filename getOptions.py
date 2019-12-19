@@ -4,7 +4,7 @@ import httplib2
 import pandas as pd
 
 
-def getModel_Year_MakeID(MakeID, Year):
+def getOptions(MakeID, Year):
     url = (
         "https://vpic.nhtsa.dot.gov/api//vehicles/GetModelsForMakeIdYear/makeId/%s/modelyear/%s?format=json"
         % (MakeID, Year)
