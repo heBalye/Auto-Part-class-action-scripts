@@ -15,7 +15,7 @@ def getQCtable_allyear(ME_df, Dict):
 
         for Year in Years:
 
-            Match_list = getMatch(Make_id, Year, Dict)
+            Match_list = getMatch(Make_id, Year, Dict, ME_df)
 
             TopMatch = [
                 rec[0].split(":")[0] if len(rec) > 0 and type(rec) == list else "N/A"
