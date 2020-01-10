@@ -55,9 +55,10 @@ for i, file in enumerate(FileName):
         )
 QC_table = pd.concat(Dict, sort=False)
 
-Output_loc = input("enter the location of output folder")
 
 QC_table.to_excel(
-    Output_loc, index=True, header=True,
+    r"C:\Users\FFR0103\Desktop\My files\WORK\Auto part\Mattress Firm\Output\QC_table123.xlsx",
+    index=True,
+    header=True,
 )
 

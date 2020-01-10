@@ -3,17 +3,17 @@ import glob
 import pandas as pd
 
 QC_table = pd.read_excel(
-    "C:\\Users\\FFR0103\\Desktop\\My files\\WORK\\Auto part\\Mattress Firm\\Output\\123.xlsx",
+    "C:\\Users\\FFR0103\\Desktop\\My files\\WORK\\Auto part\\Mattress Firm\\Output\\QC_table123.xlsx",
     index_col=[0, 1],
 )
 
-test = QC_table[["File Name", "SheetName", "index of row contains 'V/S'"]].to_dict(
+test = QC_table[["File Name", "SheetName", "Row number contains 'V/S'"]].to_dict(
     orient="list"
 )
 header_dict = {}
 sheet_dict = {}
 for a, b, c in zip(
-    test["File Name"], test["SheetName"], test["index of row contains 'V/S'"]
+    test["File Name"], test["SheetName"], test["Row number contains 'V/S'"]
 ):
     #     print(a,b,c)
     temp = {}

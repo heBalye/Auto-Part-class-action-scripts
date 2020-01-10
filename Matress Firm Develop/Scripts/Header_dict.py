@@ -3,7 +3,7 @@ import glob
 import pandas as pd
 
 QC_table = pd.read_excel(
-    "C:\\Users\\FFR0103\\Desktop\\My files\\WORK\\Auto part\\Mattress Firm\\Output\\123.xlsx",
+    "C:\\Users\\FFR0103\\Desktop\\My files\\WORK\\Auto part\\Mattress Firm\\Output\\QC_table123.xlsx",
     index_col=[0, 1],
 )
 
