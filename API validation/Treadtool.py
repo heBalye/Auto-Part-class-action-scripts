@@ -32,5 +32,6 @@ def main():
     print(f"Finished in {round(finish-start, 2)} second(s)")
 
 
+# necceray for processtoolexecutor
 if __name__ == "__main__":
     main()
