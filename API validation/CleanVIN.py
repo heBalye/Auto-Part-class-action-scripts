@@ -11,12 +11,16 @@ import requests
 # url = "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVINValuesBatch/"
 
 
+def Col_to_str(df, col_name, separator):
+    return separator.join(list(df[col_name]))
+
+
 class ValidationProcess:
     def __init__(self, data, chunksize):
         self.data = data.split(";")
         self.chunksize = chunksize
 
-    # Create chunk that contains chunksize vins
+    # Create chunk that contains vins in size of chunksize
     def split_to_Chunk(self, chunksize):
         Dict = {}
         for i in range(len(self.data) // chunksize + 1):
@@ -56,6 +60,11 @@ class ValidationProcess:
                 "ErrorText",
             ]
         ]
+        df.insert(
+            0,
+            "OriginalVIN",
+            pd.Series(self.split_to_Chunk(self.chunksize)[Chunk].split(";")),
+        )
         print(f"{Chunk} is done!")
         return df
 
