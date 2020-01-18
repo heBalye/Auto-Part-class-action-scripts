@@ -44,34 +44,70 @@ class ValidationProcess:
             "data": self.split_to_Chunk(self.chunksize)[Chunk],
         }
         r = requests.post(url, data=post_fields)
-        print(r.status_code, "\n")
-        try:
+        if r.ok:
             result = json.loads(r.text)
-        except:
-            print(Chunk, "\n", r.text)
-
-        result = json.loads(r.text)
-        df = pd.DataFrame(result["Results"])[
-            [
-                "VIN",
-                "BodyClass",
-                "Make",
-                "Manufacturer",
-                "Model",
-                "ModelYear",
-                "Series",
-                "Trim",
-                "VehicleType",
-                "SuggestedVIN",
-                "ErrorText",
+            df = pd.DataFrame(result["Results"])[
+                [
+                    "VIN",
+                    "BodyClass",
+                    "Make",
+                    "Manufacturer",
+                    "Model",
+                    "ModelYear",
+                    "Series",
+                    "Trim",
+                    "VehicleType",
+                    "SuggestedVIN",
+                    "ErrorText",
+                ]
             ]
-        ]
-        df.insert(
-            0,
-            "OriginalVIN",
-            pd.Series(self.split_to_Chunk(self.chunksize)[Chunk].split(";")),
-        )
-        print(f"{Chunk} is done! Total: {len(self.data) // self.chunksize + 1}\n")
+            df.insert(
+                0,
+                "OriginalVIN",
+                pd.Series(self.split_to_Chunk(self.chunksize)[Chunk].split(";")),
+            )
+            print(f"{Chunk} is done! Total: {len(self.data) // self.chunksize - 1}\n")
+
+        else:
+            print(
+                f'The Status code: {r.status_code}, The input data is: {post_fields["data"]}, The Chunk name is {Chunk}\n Second attempt: trying to split and run one by one.....'
+            )
+            df = pd.DataFrame()
+            for singleVIN in self.split_to_Chunk(self.chunksize)[Chunk].split(";"):
+                post_fields = {
+                    "format": "json",
+                    "data": singleVIN,
+                }
+                r = requests.post(url, data=post_fields)
+
+                if r.ok:
+                    result = json.loads(r.text)
+                    temp = pd.DataFrame(result["Results"])[
+                        [
+                            "VIN",
+                            "BodyClass",
+                            "Make",
+                            "Manufacturer",
+                            "Model",
+                            "ModelYear",
+                            "Series",
+                            "Trim",
+                            "VehicleType",
+                            "SuggestedVIN",
+                            "ErrorText",
+                        ]
+                    ]
+                    temp.insert(
+                        0, "OriginalVIN", [singleVIN],
+                    )
+                    df = pd.concat([df, temp])
+                    print(f"Successfully get the VIN: {singleVIN} \n")
+                else:
+                    print(
+                        f"Second attampt failed... status: {r.status_code}.\n Please Manaually try this VIN: {singleVIN}\n"
+                    )
+                    df = pd.DataFrame([singleVIN], columns=["OriginalVIN"])
+
         return df
 
     def getThread_VT(self, Chunks):
