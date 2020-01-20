@@ -20,18 +20,19 @@ class ValidationProcess:
         self.data = data.split(";")
         self.chunksize = chunksize
 
+    def __len__(self):
+        return len(self.data)
+
     # Create chunk that contains vins in size of chunksize
     def split_to_Chunk(self, chunksize):
         Dict = {}
         for i in range(len(self.data) // chunksize + 1):
             if (i + 1) * chunksize < len(self.data):
                 Dict["Chunk" + str(i)] = ";".join(
-                    self.data[(i + 1) * chunksize - chunksize : (i + 1) * chunksize]
+                    self.data[i * chunksize : (i + 1) * chunksize]
                 )
             else:
-                Dict["Chunk" + str(i)] = ";".join(
-                    self.data[(i + 1) * chunksize - chunksize :]
-                )
+                Dict["Chunk" + str(i)] = ";".join(self.data[i * chunksize :])
                 return Dict
 
     def Chunklist(self):
