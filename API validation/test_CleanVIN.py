@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from CleanVIN import Col_to_str, ValidationProcess
+from APIValidation.CleanVIN import Col_to_str, ValidationProcess
 
 
 # test data
