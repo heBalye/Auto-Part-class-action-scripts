@@ -1,7 +1,6 @@
-from getMatch import getMatch
-from Dict import Dict
-from Eiligble_table import ME_df
+import sys
 
+print(sys.path)
 
-print(getMatch(603, "1999", Dict, ME_df))
+# sys.path.insert(1, "C:\\Users\\FFR0103\\Desktop\\My files\\Python Project\\myPackages")
 
